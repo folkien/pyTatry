@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 import urllib2, datetime
 
 photosFolder = "./data/photos/"
@@ -17,8 +18,16 @@ def createFileName(sufix):
 					format(now.hour,'02') + " " + \
 					format(now.minute,'02') + " " + sufix
 
+# Temperatury pobieramy stąd
+# 
 
-response = urllib2.urlopen('http://kamery.topr.pl/moko/moko_01.jpg')
-saveFile(photosFolder + createFileName('moko.jpg'), response.read())
 
-
+from xml.dom import minidom
+response = urllib2.urlopen('http://www.test.tatrynet.pl/pogoda/weatherMiddleware_v1.0/xml/lokalizacje1.xml')
+xmldoc = minidom.parseString(response.read())
+print xmldoc
+#itemlist = xmldoc.getElementsByTagName('item') 
+#print len(itemlist)
+#print itemlist[0].attributes['name'].value
+#for s in itemlist :
+#    print s.attributes['name'].value

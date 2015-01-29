@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import urllib2, datetime, sqlite3, os
+from xml.dom import minidom
 
 databaseFile = os.getenv("HOME") + "/python/pyTatry/data/database.db"
 
@@ -27,7 +28,6 @@ conn.execute("create table if not exists data ( id integer, localization text, \
 conn.commit()
 
 
-from xml.dom import minidom
 response = urllib2.urlopen('http://www.test.tatrynet.pl/pogoda/weatherMiddleware_v1.0/xml/lokalizacje1.xml')
 xmldoc = minidom.parseString(response.read())
 #print xmldoc

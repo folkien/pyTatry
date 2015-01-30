@@ -34,6 +34,8 @@ xmldoc = minidom.parseString(response.read())
 for node in xmldoc.getElementsByTagName('lokalizacja'):  # visit every node
 	print node.getAttribute("id")
 	print node.getElementsByTagName("temperatura")[0].getElementsByTagName("aktualna")[0].childNodes[0].toxml()
+	print node.getElementsByTagName("wiatr")[0].getElementsByTagName("silaAvg")[0].childNodes[0].toxml()
+	# Zapisujemy dane do bazy danych
 
 #Zapis danych i zamknięcie bazydanych.
 conn.commit()

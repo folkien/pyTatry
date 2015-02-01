@@ -28,7 +28,7 @@ conn.execute("create table if not exists pomiary ( localization text, \
 conn.commit()
 
 # Łączenie się ze stroną xml poprzez HTTP.
-thisMoment = str( datetime.datetime.now() ) # Zapamiętujemy czas połączenia.
+thisMoment = str( datetime.datetime.now() )[:19] # Zapamiętujemy czas połączenia, bez milisekund.
 response = urllib2.urlopen('http://www.test.tatrynet.pl/pogoda/weatherMiddleware_v1.0/xml/lokalizacje1.xml')
 xmldoc = minidom.parseString(response.read())
 

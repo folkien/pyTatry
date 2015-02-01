@@ -1,0 +1,68 @@
+<lokalizacje>
+  <lokalizacja id="gor">
+    <nazwa>GORYCZKOWA</nazwa>
+    <dateTimeStr>2015-02-01 00:35:30</dateTimeStr>
+    <nazwaSkr>gor</nazwaSkr>
+    <wysokosc></wysokosc>
+    <temperatura>
+      <aktualna></aktualna>
+      <max></max>
+      <min></min>
+    </temperatura>
+    <cisnienie></cisnienie>
+    <wilgotnosc></wilgotnosc>
+    <widzialnosc></widzialnosc>
+    <zachmurzenie></zachmurzenie>
+    <wiatr>
+      <kierunek>151.9489</kierunek>
+      <silaMax></silaMax>
+      <silaAvg>9.270512820512819</silaAvg>
+      <poryw></poryw>
+    </wiatr>
+    <opad></opad>
+  </lokalizacja>
+  <lokalizacja id="ps">
+    <nazwa>PIEC STAWOW</nazwa>
+    <dateTimeStr>2015-02-01 00:30:00</dateTimeStr>
+    <nazwaSkr>ps</nazwaSkr>
+    <wysokosc></wysokosc>
+    <temperatura>
+      <aktualna></aktualna>
+      <max></max>
+      <min></min>
+    </temperatura>
+    <cisnienie></cisnienie>
+    <wilgotnosc></wilgotnosc>
+    <widzialnosc></widzialnosc>
+    <zachmurzenie></zachmurzenie>
+    <wiatr>
+      <kierunek>206.2500</kierunek>
+      <silaMax></silaMax>
+      <silaAvg>11.408333333333333</silaAvg>
+      <poryw></poryw>
+    </wiatr>
+    <opad></opad>
+  </lokalizacja>
+  <lokalizacja id="mo">
+    <nazwa>MORSKIE OKO</nazwa>
+    <dateTimeStr>2015-02-01 00:30:00</dateTimeStr>
+    <nazwaSkr>mo</nazwaSkr>
+    <wysokosc></wysokosc>
+    <temperatura>
+      <aktualna></aktualna>
+      <max></max>
+      <min></min>
+    </temperatura>
+    <cisnienie></cisnienie>
+    <wilgotnosc></wilgotnosc>
+    <widzialnosc></widzialnosc>
+    <zachmurzenie></zachmurzenie>
+    <wiatr>
+      <kierunek>235.8333</kierunek>
+      <silaMax></silaMax>
+      <silaAvg>4.083333333333333</silaAvg>
+      <poryw></poryw>
+    </wiatr>
+    <opad></opad>
+  </lokalizacja>
+</lokalizacje>

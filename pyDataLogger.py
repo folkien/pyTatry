@@ -20,23 +20,49 @@ def createFileName(sufix):
 
 
 # Łączymy się z bazą danych.
-conn = sqlite3.connect('example.db')
+conn = sqlite3.connect('./data/database.db')
 #Tworzymy tabele jeżeli nie istnieje
-conn.execute("create table if not exists data ( id integer, localization text, \
-												moment DATETIMe, desc text,    \
-												value real)")
+conn.execute("create table if not exists pomiary ( localization text, \
+						   moment DATETIME, desc text,    \
+						   value real)")
 conn.commit()
 
-
+# Łączenie się ze stroną xml poprzez HTTP.
+thisMoment = str( datetime.datetime.now() ) # Zapamiętujemy czas połączenia.
 response = urllib2.urlopen('http://www.test.tatrynet.pl/pogoda/weatherMiddleware_v1.0/xml/lokalizacje1.xml')
 xmldoc = minidom.parseString(response.read())
-#print xmldoc
+
 for node in xmldoc.getElementsByTagName('lokalizacja'):  # visit every node
-	print node.getAttribute("id")
-	print node.getElementsByTagName("temperatura")[0].getElementsByTagName("aktualna")[0].childNodes[0].toxml()
-	print node.getElementsByTagName("wiatr")[0].getElementsByTagName("silaAvg")[0].childNodes[0].toxml()
-	# Zapisujemy dane do bazy danych
+        nazwa = str(node.getElementsByTagName("nazwa")[0].childNodes[0].toxml())
+        print nazwa
+
+        #Zapis temperatury do bazy
+        try :
+            args = (nazwa,                                                                                                          \
+                    thisMoment,                                                                                                     \
+                    "temperatura",                                                                                                  \
+                    float(node.getElementsByTagName("temperatura")[0].getElementsByTagName("aktualna")[0].childNodes[0].toxml()),   \
+                    )
+            # Zapisujemy dane do bazy danych
+            conn.execute('INSERT INTO pomiary VALUES (?,?,?,?)', args);
+            print "-Zapis danych temperatury."
+        except: 
+            print "-Brakuje temperatury, coś się zepsuło!"
+        
+        #Zapis wiatru do bazy
+        try :
+            args = (nazwa,                                                                                                          \
+                    thisMoment,                                                                                                     \
+                    "wiatr",                                                                                                        \
+                    float(node.getElementsByTagName("wiatr")[0].getElementsByTagName("silaAvg")[0] .childNodes[0].toxml()),   \
+                    )
+            # Zapisujemy dane do bazy danych
+            conn.execute('INSERT INTO pomiary VALUES (?,?,?,?)', args);
+            print "-Zapis danych wiatru."
+        except: 
+            print "-Brakuje wiatru, coś się zepsuło!"
 
 #Zapis danych i zamknięcie bazydanych.
 conn.commit()
 conn.close()
+print "Baza danych zapisana i zamknięta."

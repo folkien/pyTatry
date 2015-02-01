@@ -62,10 +62,10 @@ response = urllib2.urlopen('http://new.meteo.pl/um/metco/mgram_pict.php?ntype=0u
 saveFile(photosFolder + "meteo/" +createFileName('.png'), response.read())
 
 #Mergowanie plikow
+print "Zdjęcie całego dnia."
 command =  "convert \( "+m1FileName+" "+m2FileName+" "+psFileName+" +append \) \
           \( "+buFileName+" "+gaFileName+" "+goFileName+" +append \) \
           \( "+chFileName+" +append \) \
           -background none -append "+allFileName 
-print command
 os.system(command)
 

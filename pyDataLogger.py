@@ -1,14 +1,22 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import urllib2, datetime, sqlite3, os
+import urllib2, datetime, sqlite3, os, tempfile, subprocess
 from xml.dom import minidom
 
-databaseFile = os.getenv("HOME") + "/python/pyTatry/data/database.db"
+databaseFile 	= os.getenv("HOME") + "/python/pyTatry/data/database.db"
+zagrozenieFile 	= os.getenv("HOME") + "/python/pyTatry/data/zagrozenieAktualne.txt"
+
 
 def saveFile(filename,data):
 		f = open(filename,'w')
 		f.write(data)
 		f.close()
+
+def loadFile(filename):
+		f = open(filename,'r')
+		r = f.read()
+		f.close()
+		return r
 
 def createFileName(sufix):
 		now = datetime.datetime.now()
@@ -61,6 +69,29 @@ for node in xmldoc.getElementsByTagName('lokalizacja'):  # visit every node
             print "-Zapis danych wiatru."
         except: 
             print "-Brakuje wiatru, coś się zepsuło!"
+
+#Zapis stopnia zagrożenia lawinowego
+print "Stopień zagrożenia lawinowego."
+#odczytujemy stronę www z zagrożeniem lawinowym
+response = urllib2.urlopen('http://www.topr.pl/wwt/warunki-w-tatrach-2')
+#tworzymy plik tymczasowy, ze stroną www.
+f = tempfile.NamedTemporaryFile(delete=False)
+f.write(response.read())
+f.close()
+#używamy grep'a żeby dostać się do potrzebnych danych
+o = os.system("cat "+ f.name +" | grep \"./images/stopnie.*jpg\" -o | grep [0-9] -o > "+ zagrozenieFile)
+#Sprzątamy tymczasowy plik
+os.unlink(f.name)
+#zapisujemy dane do bazy
+args = ("tatry",                \
+	thisMoment,                 \
+	"lawiny",                   \
+	loadFile(zagrozenieFile),   \
+	)
+# Zapisujemy dane do bazy danych
+conn.execute('INSERT INTO pomiary VALUES (?,?,?,?)', args);
+
+
 
 #Zapis danych i zamknięcie bazydanych.
 conn.commit()

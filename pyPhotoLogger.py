@@ -58,7 +58,7 @@ response = urllib2.urlopen('http://kamery.topr.pl/chocholowska/chocholow.jpg')
 saveFile(chFileName, response.read())
 
 print "Meteogram."
-response = urllib2.urlopen('http://new.meteo.pl/um/metco/mgram_pict.php?ntype=0u&fdate=2015012806&row=487&col=232&lang=pl')
+response = urllib2.urlopen('http://new.meteo.pl/um/metco/mgram_pict.php?ntype=0u&row=487&col=232&lang=pl')
 saveFile(photosFolder + "meteo/" +createFileName('.png'), response.read())
 
 #Mergowanie plikow

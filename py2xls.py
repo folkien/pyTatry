@@ -90,13 +90,14 @@ lastTime = ""
 conn = sqlite3.connect(databaseFile)
 for record in conn.execute("SELECT * FROM pomiary ORDER BY moment ASC"):
     print record
+
     locPos = lokalizacje[record[0]]
     atrPos = atrybuty[record[2]]
     # Dla nowego czasu zwiększamy rząd i zapisujemy czas.
     if (lastTime != record[1]):
-        lastTime = record[1]
-        row +=1
-        worksheet.write(row, 0, record[1])
+			lastTime = record[1]
+			row +=1
+			worksheet.write_datetime(row, 0, datetime.datetime.strptime(record[1], '%Y-%m-%d %H:%M:%S'))
     
     worksheet.write(row, locPos+atrPos, record[3])
 

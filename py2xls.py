@@ -8,10 +8,12 @@ import xlsxwriter
 lokalizacje = { "MORSKIE OKO": 0,
                 "GORYCZKOWA" : 2,
                 "PIEC STAWOW" : 4,
+				"tatry"		  : 6
 }
 
 atrybuty = { "temperatura": 1,
-              "wiatr" : 2,
+             "wiatr" 	  : 2,
+			 "lawiny" 	  : 3,
 }
 
 

@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import urllib2, datetime, sqlite3, os, tempfile, subprocess, re
+import urllib2, datetime, sqlite3, os, re
 from xml.dom import minidom
 
 databaseFile 	= os.getenv("HOME") + "/python/pyTatry/data/database.db"

@@ -56,14 +56,15 @@ worksheet = workbook.add_worksheet()
 
 # Zapis nagłówka, jak poniżej.
 # 
-#   0  |    1        2           3           4       5
-#      | Morskie Oko |         | 5 Stawów |        | Goryczkowa |
-# Czas | Temp        | Wiatr   | Temp     | Wiatr  | Temp       | Wiatr  
+#   0A  |    1B        	  2C          3D        4E       5F 		 6G			7H
+#       | Morskie Oko |         | 5 Stawów |        | Goryczkowa |        | Zagrożenie lawinowe
+# Czas  | Temp        | Wiatr   | Temp     | Wiatr  | Temp       | Wiatr  |
 #
 #pierwszy rzad nagłówka
 worksheet.write(0, 1, u"Morskie oko")
 worksheet.write(0, 3, u"Goryczkowa")
 worksheet.write(0, 5, u"5 Stawów")
+worksheet.write(0, 7, u"Zagrożenie lawinowe")
 #drugi rząd nagłówka
 worksheet.write(1, 0, u"Czas[data]")
 worksheet.write(1, 1, u"Temperatura[C]")
@@ -90,8 +91,33 @@ for record in conn.execute("SELECT * FROM pomiary ORDER BY moment ASC"):
     
     worksheet.write(row, locPos+atrPos, record[3])
 
+#Dodajemy wykres temperatur dla wszystkich miejsc
+lastRow = str(row)
+chart = workbook.add_chart({'type' : 'line'})
+chart.add_series({
+	'name':		  '=Sheet1!$B$1',
+    'categories': '=Sheet1!$A$3:$A$' + lastRow,
+    'values':     '=Sheet1!$B$3:$B$' + lastRow,
+})
+chart.add_series({
+	'name':		  '=Sheet1!$D$1',
+    'categories': '=Sheet1!$A$3:$A$' + lastRow,
+    'values':     '=Sheet1!$D$3:$D$' + lastRow,
+})
+chart.add_series({
+	'name':		  '=Sheet1!$F$1',
+    'categories': '=Sheet1!$A$3:$A$' + lastRow,
+    'values':     '=Sheet1!$F$3:$F$' + lastRow,
+})
+chart.set_title({
+    'name': 'Temperatury [C]',
+    'name_font': {
+        'name': 'Calibri',
+        'color': 'blue',
+    },
+})
+worksheet.insert_chart('J4',chart)
 
-    #worksheet.write(2, 0, 123)
 
 #Zamykamy zapisany arkusz
 workbook.close()

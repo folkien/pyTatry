@@ -1,8 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import urllib2, datetime, sqlite3, os, argparse
+import xlsxwriter, functions
 from xml.dom import minidom
-import xlsxwriter
 
 
 lokalizacje = { "MORSKIE OKO": 0,
@@ -28,23 +28,12 @@ atrybuty = { "temperatura": 1,
 databaseFile = os.getenv("HOME") + "/python/pyTatry/data/database.db"
 dataFolder = "./data/"
 
-def saveFile(filename,data):
-		f = open(filename,'w')
-		f.write(data)
-		f.close()
-
-def createFileName(sufix):
-		now = datetime.datetime.now()
-		return  format(now.year,'02') + "." + \
-                        format(now.month,'02') + "." + \
-                        format(now.day,'02') + "_" + \
-                        format(now.hour,'02')  + \
-                        format(now.minute,'02') +  sufix
-
 # Create an new Excel file and add a worksheet.
-workbook = xlsxwriter.Workbook(dataFolder + createFileName('.xlsx'))
-worksheet = workbook.add_worksheet()
+workbook = xlsxwriter.Workbook(dataFolder + functions.createFileName('.xlsx'))
+# Add an Excel date format.
+date_format = workbook.add_format({'num_format': 'mmmm d yyyy hh:mm'})
 
+worksheet = workbook.add_worksheet()
 # Widen the first column to make the text clearer.
 #worksheet.set_column('A:A', 20)
 
@@ -97,7 +86,7 @@ for record in conn.execute("SELECT * FROM pomiary ORDER BY moment ASC"):
     if (lastTime != record[1]):
 			lastTime = record[1]
 			row +=1
-			worksheet.write_datetime(row, 0, datetime.datetime.strptime(record[1], '%Y-%m-%d %H:%M:%S'))
+			worksheet.write_datetime(row, 0, datetime.datetime.strptime(record[1], '%Y-%m-%d %H:%M:%S'), date_format)
     
     worksheet.write(row, locPos+atrPos, record[3])
 

@@ -1,31 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import urllib2, datetime, sqlite3, os, re
+import functions
 from xml.dom import minidom
 
 databaseFile 	= os.getenv("HOME") + "/python/pyTatry/data/database.db"
-zagrozenieFile 	= os.getenv("HOME") + "/python/pyTatry/data/zagrozenieAktualne.txt"
-
-
-def saveFile(filename,data):
-		f = open(filename,'w')
-		f.write(data)
-		f.close()
-
-def loadFile(filename):
-		f = open(filename,'r')
-		r = f.read()
-		f.close()
-		return r
-
-def createFileName(sufix):
-		now = datetime.datetime.now()
-		return format(now.year,'02') + "." + \
-					format(now.month,'02') + "." + \
-					format(now.day,'02') + " " + \
-					format(now.hour,'02') + " " + \
-					format(now.minute,'02') + " " + sufix
-
 
 # Łączymy się z bazą danych.
 conn = sqlite3.connect(databaseFile)

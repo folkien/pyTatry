@@ -15,3 +15,13 @@ za pomocą sqlite3 i może być bezpośrednio exportowana do .xlsx oraz .csv.
 - Dodać Karkonosze,
 - Dodać Ślęże,
 - Dodać Śnieżnik,
+
+# Wymagania
+- python 2.7
+- python-xlsxwriter
+- ImageMagick - przede wszystkim polecenie Convert.
+- Cron, jeżeli chcemy zautomatyzować wywoływanie skryptów.
+
+# Opis poleceń
+
+# Uruchamianie z Cron'em

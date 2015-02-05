@@ -12,17 +12,31 @@ class kameraInternetowa:
 
 		def fetchData(self):
 				response = urllib2.urlopen(self.link)
-				return response.read()
+				return [ response.read() ]
 
 class stopienZagrozenia(kameraInternetowa):
 		
 		def fetchData(self):
+				# lista z obrazami
+				listaObrazow = []
+
 				#odczytujemy stronę www z zagrożeniem lawinowym
-				response = urllib2.urlopen(self.link)
-				stopien  = re.search('images/stopnie.*jpg',response.read()).group(0)
-				#sciagamy obrazek ze strony TOPR'u
-				response = urllib2.urlopen("http://www.topr.pl/" + stopien)
-				return response.read()
+				response 			= urllib2.urlopen(self.link)
+				analizowanaTresc	= response.read()
+				stopien  			= re.search('images/stopnie.*jpg', analizowanaTresc).group(0)
+				wystawy  			= re.search('images\/kierunki\/[nesw]*\.jpg', analizowanaTresc).group(0)
+
+				#sciagamy obrazek zagrozenia ze strony TOPR'u
+				if (len(stopien)>0):
+					response = urllib2.urlopen("http://www.topr.pl/" + stopien)
+					listaObrazow.append(response.read())
+
+				#sciagamy wystawy niebezpieczne
+				if (len(stopien)>0):
+					response = urllib2.urlopen("http://www.topr.pl/" + wystawy)
+					listaObrazow.append(response.read())
+
+				return listaObrazow
 
 class krainaGeograficzna:
 		

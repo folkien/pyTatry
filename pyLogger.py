@@ -8,8 +8,11 @@ for kraina in settings.swiat:
 
     # Sciaganie obrazu z kamer.
     for kamera in kraina.listaKamer : 
-        print kamera.nazwa + "."
-        functions.saveFile(settings.photosFolder + kamera.folder + settings.actualDate + kamera.rozszerzenie, kamera.fetchData())
+		print kamera.nazwa + "."
+		numer = 0
+		for obraz in kamera.fetchData():
+				functions.saveFile(settings.photosFolder + kamera.folder + settings.actualDate + str(numer) + kamera.rozszerzenie, obraz)
+				numer+=1
 
     kraina.kolazKamer()
 

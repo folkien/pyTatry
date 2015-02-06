@@ -53,7 +53,7 @@ class generowaneZdjecie(kameraInternetowa):
 		
 
 		def fetchData(self):
-				os.system("convert -background black -fill '#FFFFFF' -font Verdana -pointsize 72 label:'"+self.nazwa+"' tmp.jpg")
+				os.system("convert -background black -fill '#FFFFFF' -pointsize 72 label:'"+self.nazwa+"' tmp.jpg")
 				data = functions.loadFile("tmp.jpg")
 				os.unlink("tmp.jpg")
 				return [ data ]
@@ -134,6 +134,11 @@ kameryTatry.append( zdjecieWyszukiwane( "Wystawy niebezpieczne", "http://www.top
 
 #kamery w Karkonoszach
 kameryKarkonosze = []
+#kameryKarkonosze.append( kameraInternetowa("Śnieżka 1", "http://kamery.humlnet.cz/images/webcams/snezka1/640x480.jpg?", "sniezka1/", ".jpg") )
+kameryKarkonosze.append( kameraInternetowa("Śnieżka 2", "http://kamery.humlnet.cz/images/webcams/snezka2/640x480.jpg?", "sniezka2/", ".jpg") )
+kameryKarkonosze.append( kameraInternetowa("Śnieżka 3", "http://kamery.humlnet.cz/images/webcams/snezka3/640x480.jpg?", "sniezka3/", ".jpg") )
+kameryKarkonosze.append( kameraInternetowa("Piec pod śnieżką", "http://kamery.humlnet.cz/images/webcams/pecpodsnezkou/640x480.jpg?", "piec-pod-sniezka/", ".jpg") )
+
 
 # Pogoda jest traktowana jako osobna kraina geograficzna, gdzie pobieramy pogodę z różnych miejsc Kraju
 # a następnie łączymy w kolaz

@@ -8,7 +8,7 @@ for kraina in settings.swiat:
 
     # Sciaganie obrazu z kamer.
     for kamera in kraina.listaKamer : 
-		print kamera.nazwa + "."
+		print "->"+kamera.nazwa + "."
 		# Jezeli nie pobrano obrazu z kamery
 		if (not kamera.pobrano):
 			for obraz in kamera.fetchData():

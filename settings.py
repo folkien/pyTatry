@@ -4,24 +4,29 @@ import functions, os, urllib2, re, math
 
 class kameraInternetowa:
 		
-		def __init__(self,n,l,f, ext = ".jpg"):
+		def __init__(self,n,l,f, ext = ".jpg", isKolage = True ):
 				self.nazwa 	= n
 				self.link  	= l
 				self.folder = f
 				self.rozszerzenie = ext
+				self.czyKolaz = isKolage
+				self.pobrano = False
 
 		def fetchData(self):
 				response = urllib2.urlopen(self.link)
+				self.pobrano = True
 				return [ response.read() ]
 
 class zdjecieWyszukiwane(kameraInternetowa):
 		
-		def __init__(self,n,l,f, ext = ".jpg", pattern = ""):
+		def __init__(self,n,l,f, ext = ".jpg", isKolage = True, pattern = ""):
 				self.nazwa 	= n
 				self.link  	= l
 				self.folder = f
 				self.rozszerzenie = ext
+				self.czyKolaz = isKolage
 				self.wzorzec = pattern
+				self.pobrano = False
 		
 		def fetchData(self):
 				# lista z obrazami
@@ -31,15 +36,31 @@ class zdjecieWyszukiwane(kameraInternetowa):
 				response 			= urllib2.urlopen(self.link)
 				analizowanaTresc	= response.read()
 				element  			= re.search(self.wzorzec, analizowanaTresc)
-				#wystawy  			= re.search('images\/kierunki\/[nesw]*\.jpg', analizowanaTresc)
 
 				#sciagamy obrazek zagrozenia ze strony TOPR'u
 				if (element != None):
 					response = urllib2.urlopen("http://www.topr.pl/" + element.group(0))
 					listaObrazow.append(response.read())
+				else:
+					self.czyKolaz = False
 
+				# Zaznaczenie ze pobrano dane za kamery
+				self.pobrano = True
 
 				return listaObrazow
+
+class generowaneZdjecie(kameraInternetowa):
+		
+
+		def fetchData(self):
+				os.system("convert -background black -fill '#FFFFFF' -font Verdana -pointsize 72 label:'"+self.nazwa+"' tmp.jpg")
+				data = functions.loadFile("tmp.jpg")
+				os.unlink("tmp.jpg")
+				return [ data ]
+
+
+
+
 
 class krainaGeograficzna:
 		
@@ -49,21 +70,34 @@ class krainaGeograficzna:
 				self.listaKamer		= k
 				self.rozszerzenie 	= ext
 
+		def listaKamerDoKolazu(self):
+				kameryDoKolazu = []
+				for kamera in self.listaKamer:
+						if (kamera.czyKolaz == True):
+								kameryDoKolazu.append( kamera )
+				return kameryDoKolazu
+
 		def kolazKamer(self):
 				print "Zdjęcie całego dnia."
+				kameryDoKolazu = self.listaKamerDoKolazu()
+
 				#Mergowanie plikow
 				command 	= "convert "
-				photosNumber= len(self.listaKamer)
-				sizex 		= math.ceil( math.sqrt( photosNumber ) ) 
+				photosNumber= len(kameryDoKolazu)
+				sizex 		= int(math.ceil( math.sqrt( photosNumber ) )) 
 				n 			= 0
 				row 		= ""
 				while (n < photosNumber):
-						row += photosFolder + self.listaKamer[n].folder + actualDate + self.listaKamer[n].rozszerzenie + " "
+						row += photosFolder + kameryDoKolazu[n].folder + actualDate + kameryDoKolazu[n].rozszerzenie + " "
 						n += 1
 						# Jezeli trzeba kończyć rząd to kończymy
 						if (n%sizex == 0):
 								command += "\( " + row + " +append \)  "
 								row 	 = ""
+				#Sprawdzamy czy nie zostało nam coś do dopisania
+				if (len(row)>0):
+					command += "\( " + row + " +append \)  "
+				#Kończymy polecenie
 				command += "-background none -append "+ photosFolder + self.folder + actualDate + self.rozszerzenie 
 				print command
 				os.system(command)
@@ -95,22 +129,33 @@ kameryTatry.append( kameraInternetowa("Buczynowa dolinka", "http://kamery.topr.p
 kameryTatry.append( kameraInternetowa("Hala gąsienicowa", "http://kamery.topr.pl/gasienicowa/gasie.jpg", 		"gasienicowa/" ) )
 kameryTatry.append( kameraInternetowa("Goryczkowa", "http://kamery.topr.pl/goryczkowa/gorycz.jpg", 				"goryczkowa/" ) )
 kameryTatry.append( kameraInternetowa("Dol Chochołowska", "http://kamery.topr.pl/chocholowska/chocholow.jpg", 	"chocholowska/" ) )
-kameryTatry.append( kameraInternetowa("Meteogram Zakopane", "http://new.meteo.pl/um/metco/mgram_pict.php?ntype=0u&row=487&col=232&lang=pl", "pogoda-zakopane/", ".png" ) )
-kameryTatry.append( zdjecieWyszukiwane( "Stopień zagrożenia lawinowego", "http://www.topr.pl/wwt/warunki-w-tatrach-2", 	"lawiny/", "stopien.jpg",  "images/stopnie.*jpg") )
-kameryTatry.append( zdjecieWyszukiwane( "Wystawy niebezpieczne", "http://www.topr.pl/wwt/warunki-w-tatrach-2", 	"lawiny/", "wystawy.jpg", "images\/kierunki\/[nesw]*\.jpg") )
+kameryTatry.append( zdjecieWyszukiwane( "Stopień zagrożenia lawinowego", "http://www.topr.pl/wwt/warunki-w-tatrach-2", 	"lawiny/", "_stopien.jpg", True, "images/stopnie.*jpg") )
+kameryTatry.append( zdjecieWyszukiwane( "Wystawy niebezpieczne", "http://www.topr.pl/wwt/warunki-w-tatrach-2", 	"lawiny/", "_wystawy.jpg", True, "images\/kierunki\/[nesw]*\.jpg") )
 
 #kamery w Karkonoszach
 kameryKarkonosze = []
-kameryKarkonosze.append( kameraInternetowa("Meteogram Karpacz", "http://new.meteo.pl/um/metco/mgram_pict.php?ntype=0u&row=444&col=158&lang=pl", "pogoda-karpacz/", ".png" ) )
-kameryKarkonosze.append( kameraInternetowa("Meteogram Szklarska poręba", "http://new.meteo.pl/um/metco/mgram_pict.php?ntype=0u&row=443&col=154&lang=pl", "pogoda-szklarska/", ".png" ) )
+
+# Pogoda jest traktowana jako osobna kraina geograficzna, gdzie pobieramy pogodę z różnych miejsc Kraju
+# a następnie łączymy w kolaz
+kameryPogoda = []
+kameryPogoda.append( kameraInternetowa("Meteogram Zakopane", "http://new.meteo.pl/um/metco/mgram_pict.php?ntype=0u&row=487&col=232&lang=pl", "pogoda-zakopane/", ".png") )
+kameryPogoda.append( kameraInternetowa("Meteogram Karpacz", "http://new.meteo.pl/um/metco/mgram_pict.php?ntype=0u&row=444&col=158&lang=pl", "pogoda-karpacz/", ".png" ) )
+kameryPogoda.append( kameraInternetowa("Meteogram Szklarska poręba", "http://new.meteo.pl/um/metco/mgram_pict.php?ntype=0u&row=443&col=154&lang=pl", "pogoda-szklarska/", ".png" ) )
+kameryPogoda.append( generowaneZdjecie("Zakopane", "", "etykiety/", "_zakopane.jpg" ) )
+kameryPogoda.append( generowaneZdjecie("Karpacz", "", "etykiety/", "_karpacz.jpg" ) )
+kameryPogoda.append( generowaneZdjecie("Szklarska poręba", "", "etykiety/", "_szklarska.jpg" ) )
+
 
 # tworzymy krainy geograficzne
-tatry = krainaGeograficzna("Tatry","tatry/",kameryTatry)
-karkonosze = krainaGeograficzna("Karkonosze","karkonosze/",kameryKarkonosze)
+tatry 		= krainaGeograficzna("Tatry","tatry/",kameryTatry)
+karkonosze 	= krainaGeograficzna("Karkonosze","karkonosze/",kameryKarkonosze)
+pogoda		= krainaGeograficzna("Pogoda Polska","pogoda/",kameryPogoda)
+
 
 # tworzymy swiat
 swiat = []
 swiat.append(tatry)
 swiat.append(karkonosze)
+swiat.append(pogoda)
 
 

@@ -161,6 +161,9 @@ kameryKarkonosze = []
 kameryKarkonosze.append( kameraInternetowa("Śnieżka 2", "http://kamery.humlnet.cz/images/webcams/snezka2/640x480.jpg?", "sniezka2/", ".jpg") )
 kameryKarkonosze.append( kameraInternetowa("Śnieżka 3", "http://kamery.humlnet.cz/images/webcams/snezka3/640x480.jpg?", "sniezka3/", ".jpg") )
 kameryKarkonosze.append( kameraInternetowa("Piec pod śnieżką", "http://kamery.humlnet.cz/images/webcams/pecpodsnezkou/640x480.jpg?", "piec-pod-sniezka/", ".jpg") )
+kameryKarkonosze.append( kameraInternetowa("Karpacz stok lodowiec", "http://www.kamera.karpacz.pl/lodowiec.jpg", "karpacz-lodowiec/", ".jpg") )
+kameryKarkonosze.append( kameraInternetowa("Schronisko Lucni Buda", "http://portal.chmi.cz/files/portal/docs/meteo/kam/lucnibouda.jpg", "lucni-buda/", ".jpg") )
+kameryKarkonosze.append( kameraInternetowa("Szpindlerove", "http://kamery.humlnet.cz/images/webcams/medvedin/640x480.jpg?", "spindlerove/", ".jpg") )
 
 
 # Pogoda jest traktowana jako osobna kraina geograficzna, gdzie pobieramy pogodę z różnych miejsc Kraju

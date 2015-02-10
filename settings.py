@@ -17,6 +17,30 @@ class kameraInternetowa:
 				self.pobrano = True
 				return [ response.read() ]
 
+class elementWyszukiwany:
+		
+		def __init__(self,l pattern = []):
+				self.link  	= l
+				self.wzorce = pattern
+				self.rezultat = ""
+				self.text = ""
+		
+		def fetchData(self):
+				#odczytujemy stronę www i wyszukujemy pattern
+				response 			= urllib2.urlopen(self.link)
+				self.text			= response.read()
+				self.rezultat		= self.text
+
+		def applyFilter(self, indeksWzorca):
+				# filtrujemy odczytaną treść
+				self.rezultat		= re.search(self.wzorce[indeksWzorca], self.rezultat)
+
+				return self.rezultat
+
+		def freeMemory(self):
+				self.text	  = ""
+				self.rezultat = ""
+
 class zdjecieWyszukiwane(kameraInternetowa):
 		
 		def __init__(self,n,l,f, ext = ".jpg", isKolage = True, pattern = ""):
@@ -51,7 +75,6 @@ class zdjecieWyszukiwane(kameraInternetowa):
 
 class generowaneZdjecie(kameraInternetowa):
 		
-
 		def fetchData(self):
 				os.system("convert -background black -fill '#FFFFFF' -pointsize 72 label:'"+self.nazwa+"' tmp.jpg")
 				data = functions.loadFile("tmp.jpg")

@@ -26,3 +26,11 @@ za pomocą sqlite3 i może być bezpośrednio exportowana do .xlsx oraz .csv.
 # Opis poleceń
 
 # Uruchamianie z Cron'em
+
+Aby uruchamiać skrypt co pół godziny należy dodać do crontab
+
+0,30 * * * * /usr/bin/python scieżkaDoPobranegoRepozytorium/pyLogger.py 
+
+Aby uruchamiać skrypt o każdej pełnej godzinie(np 10:00, 11:00 etc) należy dodać
+
+0 * * * * /usr/bin/python scieżkaDoPobranegoRepozytorium/pyLogger.py 

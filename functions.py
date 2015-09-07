@@ -13,6 +13,10 @@ def saveFile(filename,data):
 		f.write(data)
 		f.close()
 
+def checkDirectoryExists(directory):
+		if not os.path.exists(directory):
+				os.makedirs(directory)
+
 def createFileName(sufix):
 		now = datetime.datetime.now()
 		return  format(now.year,'02') + "." + \

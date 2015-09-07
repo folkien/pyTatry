@@ -16,6 +16,7 @@ for kraina in settings.swiat:
 		# Jezeli nie pobrano obrazu z kamery
 		if (not kamera.pobrano):
 			for obraz in kamera.fetchData():
+				functions.checkDirectoryExists(settings.photosFolder + kamera.folder)
 				functions.saveFile(settings.photosFolder + kamera.folder + settings.actualDate + kamera.rozszerzenie, obraz)
 
     kraina.kolazKamer()

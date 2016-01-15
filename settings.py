@@ -24,7 +24,7 @@ def strip_tags(html):
 
 
 class webCamera:
-		
+
 		def __init__(self,n,l,f, ext = ".jpg", isKolage = True ):
 				self.nazwa 	= n
 				self.link  	= l
@@ -38,7 +38,7 @@ class webCamera:
 				self.pobrano = True
 				return [ response.read() ]
 
-# Klasa do przechowywania pomiarów                            
+# Klasa do przechowywania pomiarów
 class cMeasurement:
 
 		def __init__(self, newLoc, newMoment, newDesc, newPatterns, newValue = ""):
@@ -60,14 +60,14 @@ class cMeasurement:
 
 
 class htmlMeasurments:
-		
+
 		def __init__(self, newLink, newMeasurments = [] ):
 				self.link  	    = newLink
 				self.text           = ""
                                 self.measurments    = newMeasurments
                                 self.coding         = "utf-8"
-		
-                "Pobiera dokument o adresie wskazanym przez self.link z internetu."                
+
+                "Pobiera dokument o adresie wskazanym przez self.link z internetu."
 		def fetchData(self):
 				#odczytujemy stronę www i wyszukujemy pattern
 				response 			= urllib2.urlopen(self.link)
@@ -78,11 +78,11 @@ class htmlMeasurments:
                                     #nadpisujemy kodowanie
                                     self.coding = result.group(0)[8:]
 
-                "Ustawia ręcznie treść dokumentu."                
+                "Ustawia ręcznie treść dokumentu."
                 def setData(self, newContent):
 				self.text			= newContent
 
-            
+
                 "Filtruje treść dokumentu dla każdego zestawu wzorców. Odczytane \
                  wartości zapisuje w słowniku self.results."
 		def doFiltering(self):
@@ -106,7 +106,7 @@ class htmlMeasurments:
 				self.results       = {}
 
 class searchedPhoto(webCamera):
-		
+
 		def __init__(self,n,l,f, ext = ".jpg", isKolage = True, pattern = ""):
 				self.nazwa 	= n
 				self.link  	= l
@@ -115,7 +115,7 @@ class searchedPhoto(webCamera):
 				self.czyKolaz = isKolage
 				self.wzorzec = pattern
 				self.pobrano = False
-		
+
 		def fetchData(self):
 				# lista z obrazami
 				listaObrazow = []
@@ -139,7 +139,7 @@ class searchedPhoto(webCamera):
 
 "Zdjęcie generowane z tekstu"
 class generatedPhoto(webCamera):
-		
+
 		def fetchData(self):
 				os.system("convert -background black -fill '#FFFFFF' -pointsize 72 label:'"+self.nazwa+"' tmp.jpg")
 				data = functions.loadFile("tmp.jpg")
@@ -151,7 +151,7 @@ class generatedPhoto(webCamera):
 
 "Kraina geograficzna"
 class geographicRegion:
-		
+
 		def __init__(self,n="beznazwy",f="./",k=[],  nowePomiary = [], ext = ".jpg"):
 				self.nazwa 	    	= n
 				self.folder 		= f
@@ -173,7 +173,7 @@ class geographicRegion:
 				#Mergowanie plikow
 				command 	= "convert "
 				photosNumber= len(kameryDoKolazu)
-				sizex 		= int(math.ceil( math.sqrt( photosNumber ) )) 
+				sizex 		= int(math.ceil( math.sqrt( photosNumber ) ))
 				n 			= 0
 				row 		= ""
 				while (n < photosNumber):
@@ -187,10 +187,10 @@ class geographicRegion:
 				if (len(row)>0):
 					command += "\( " + row + " +append \)  "
 				#Kończymy polecenie
-				command += "-background none -append "+ photosFolder + self.folder + actualDate + self.rozszerzenie 
+				command += "-background none -append "+ photosFolder + self.folder + actualDate + self.rozszerzenie
 				#print command
 				os.system(command)
-						
+
 class cDatabase:
             def __init__(self, newDatabaseFile):
                 self.databaseFile = newDatabaseFile
@@ -211,7 +211,7 @@ class cDatabase:
                 print "Baza danych zapisana i zamknięta."
 
 
-# ŚCIEŻKI I KATALOGI				
+# ŚCIEŻKI I KATALOGI
 ################################################################################
 scriptFolder = os.path.dirname(os.path.realpath(__file__))
 photosFolder = scriptFolder + "/data/photos/"
@@ -229,7 +229,7 @@ if (DEBUG==1):
                                 cMeasurement("Morskie Oko",actualDate,"temperatura",["MORSKIE OKO.*?</temperatura>", "<aktualna>.*</aktualna>"]),
                                 cMeasurement("Pięć Stawów",actualDate,"temperatura",["PIEC STAWOW.*?</temperatura>", "<aktualna>.*</aktualna>"]),
                                 cMeasurement("Goryczkowa",actualDate,"temperatura",["GORYCZKOWA.*?</temperatura>", "<aktualna>.*</aktualna>"]),
-                                
+
                                 cMeasurement("Morskie Oko",actualDate,"wiatr",["MORSKIE OKO.*?</wiatr>", "<silaAvg>.*</silaAvg>"]),
                                 cMeasurement("Pięć Stawów",actualDate,"wiatr",["PIEC STAWOW.*?</wiatr>", "<silaAvg>.*</silaAvg>"]),
                                 cMeasurement("Goryczkowa",actualDate,"wiatr",["GORYCZKOWA.*?</wiatr>", "<silaAvg>.*</silaAvg>"])
@@ -241,7 +241,7 @@ if (DEBUG==1):
         print m.localization
         print m.moment
         print m.value
-    
+
     #testDocument = htmlMeasurments("http://www.topr.pl/",
                                 #[ cMeasurement("tatry",actualDate,"rozwojZagrozenia",['Przewidywany rozwój.*?Zobacz cały','<p.*?</p'] ) ]
                                 #)
@@ -271,7 +271,7 @@ else:
     pomiaryTatry.append( htmlMeasurments("http://www.topr.pl/wwt/warunki-w-tatrach-2",
                                 [cMeasurement(u"tatry",thisMoment,u"stopien",['images/stopnie.*?jpg','[0-9]']),
                                  cMeasurement(u"tatry",thisMoment,u"informacjeDodatkowe",["Informacje dodatkowe.*?/span"])
-                                ]) 
+                                ])
                         )
     pomiaryTatry.append( htmlMeasurments("http://www.topr.pl/",
                                 [ cMeasurement(u"tatry",thisMoment,"rozwojZagrozenia",['Przewidywany rozwój.*?Zobacz cały','<p.*?</p'] ) ]
@@ -304,9 +304,13 @@ else:
     kameryPogoda.append( webCamera("Meteogram Zakopane", "http://new.meteo.pl/um/metco/mgram_pict.php?ntype=0u&row=487&col=232&lang=pl", "pogoda-zakopane/", ".png") )
     kameryPogoda.append( webCamera("Meteogram Karpacz", "http://new.meteo.pl/um/metco/mgram_pict.php?ntype=0u&row=444&col=158&lang=pl", "pogoda-karpacz/", ".png" ) )
     kameryPogoda.append( webCamera("Meteogram Szklarska poręba", "http://new.meteo.pl/um/metco/mgram_pict.php?ntype=0u&row=443&col=154&lang=pl", "pogoda-szklarska/", ".png" ) )
+    kameryPogoda.append( webCamera("Stronie Śląskie", "http://new.meteo.pl/um/metco/mgram_pict.php?ntype=0u&row=459&col=177&lang=pl", "pogoda-stronieslaskie/", ".png" ) )
+    kameryPogoda.append( webCamera("Duszniki Zdrój", "http://new.meteo.pl/um/metco/mgram_pict.php?ntype=0u&row=456&col=169&lang=pl", "pogoda-dusznikizdroj/", ".png" ) )
     kameryPogoda.append( generatedPhoto("Zakopane", "", "etykiety/", "_zakopane.jpg" ) )
     kameryPogoda.append( generatedPhoto("Karpacz", "", "etykiety/", "_karpacz.jpg" ) )
     kameryPogoda.append( generatedPhoto("Szklarska poręba", "", "etykiety/", "_szklarska.jpg" ) )
+    kameryPogoda.append( generatedPhoto("Stronie Śląskie", "", "etykiety/", "_stronieslaskie.jpg" ) )
+    kameryPogoda.append( generatedPhoto("Duszniki Zdrój", "", "etykiety/", "_dusznikizdroj.jpg" ) )
 
     # tworzymy krainy geograficzne
     tatry 		= geographicRegion("Tatry","tatry/",kameryTatry,pomiaryTatry)

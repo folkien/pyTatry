@@ -14,9 +14,7 @@ za pomocą sqlite3 i może być bezpośrednio exportowana do .xlsx oraz .csv.
 - Stworzyć aplikację webową do wyświetlania danych i przeglądania zdjęć,
 - Poprawić export do XLS,
 - Dodać Ślęże,
-- Dodać Śnieżnik,
 - Dodać analizę zdjęć i na tej podstawie oceniać widzialność i zapisywać w bazie
-- Schronisko górskie orzeł http://www.orzel.info.pl/okno.php?file=kamera/stacja.jpg&title=Orze%C5%82&desc=Obraz
 
 # Wymagania
 - python 2.7

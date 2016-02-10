@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python2.7
 # -*- coding: utf-8 -*-
 import os, functions, settings
 
@@ -6,21 +6,21 @@ import os, functions, settings
 ################################################################################
 database = settings.cDatabase(settings.databaseFile)
 
-for kraina in settings.swiat: 
+for kraina in settings.swiat:
     print kraina.nazwa + "."
 
     # KAMERY
 	################################################################################
-    for kamera in kraina.listaKamer: 
-		print "->"+kamera.nazwa + "."
-		# Jezeli nie pobrano obrazu z kamery
-		if (not kamera.pobrano):
-			for obraz in kamera.fetchData():
-				functions.checkDirectoryExists(settings.photosFolder + kamera.folder)
-				functions.saveFile(settings.photosFolder + kamera.folder + settings.actualDate + kamera.rozszerzenie, obraz)
+    for kamera in kraina.listaKamer:
+        print "->"+kamera.nazwa + "."
+        # Jezeli nie pobrano obrazu z kamery
+        if (not kamera.pobrano):
+            for obraz in kamera.fetchData():
+                functions.checkDirectoryExists(settings.photosFolder + kraina.folder + kamera.folder)
+                functions.saveFile(settings.photosFolder + kraina.folder + kamera.folder + settings.actualDate + kamera.rozszerzenie, obraz)
 
     kraina.kolazKamer()
-	
+
 	# POMIARY
 	################################################################################
     for dokumentPomiarowy in kraina.listaPomiarow:

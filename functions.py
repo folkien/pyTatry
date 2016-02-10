@@ -9,13 +9,16 @@ def loadFile(filename):
 		return r
 
 def saveFile(filename,data):
-		f = open(filename,'w')
-		f.write(data)
-		f.close()
+    print "[FILE]" + filename
+    f = open(filename,'w')
+    f.write(data)
+    f.close()
 
 def checkDirectoryExists(directory):
-		if not os.path.exists(directory):
-				os.makedirs(directory)
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+            print "[DIR]" + directory
+
 
 def createFileName(sufix):
 		now = datetime.datetime.now()

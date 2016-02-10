@@ -1,3 +1,6 @@
 testArena
 data
 *.pyc
+*.jpg
+*.png
+*.jpeg

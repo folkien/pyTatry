@@ -177,7 +177,7 @@ class geographicRegion:
 				n 			= 0
 				row 		= ""
 				while (n < photosNumber):
-						row += photosFolder + kameryDoKolazu[n].folder + actualDate + kameryDoKolazu[n].rozszerzenie + " "
+						row += photosFolder + self.folder + kameryDoKolazu[n].folder + actualDate + kameryDoKolazu[n].rozszerzenie + " "
 						n += 1
 						# Jezeli trzeba kończyć rząd to kończymy
 						if (n%sizex == 0):
@@ -254,6 +254,8 @@ if (DEBUG==1):
         #print m.value
 else:
 
+    # TATRY
+    #--------------------------------------------------------------------------------
     # kamery w Tatrach
     kameryTatry = []
     kameryTatry.append( webCamera("Morskie Oko 1", "http://kamery.topr.pl/moko/moko_01.jpg", 				"moko1/" ) )
@@ -287,7 +289,11 @@ else:
                                 cMeasurement(u"Goryczkowa",thisMoment,u"wiatr",["GORYCZKOWA.*?</wiatr>", "<silaAvg>.*</silaAvg>"])
                                 ])
                         )
+    tatry = geographicRegion("Tatry","tatry/",kameryTatry,pomiaryTatry)
+    #--------------------------------------------------------------------------------
 
+    # Karkonosze
+    #--------------------------------------------------------------------------------
     #kamery w Karkonoszach
     kameryKarkonosze = []
     #kameryKarkonosze.append( webCamera("Śnieżka 1", "http://kamery.humlnet.cz/images/webcams/snezka1/640x480.jpg?", "sniezka1/", ".jpg") )
@@ -298,8 +304,12 @@ else:
     kameryKarkonosze.append( webCamera("Schronisko Lucni Buda", "http://portal.chmi.cz/files/portal/docs/meteo/kam/lucnibouda.jpg", "lucni-buda/", ".jpg") )
     kameryKarkonosze.append( webCamera("Szpindlerove", "http://kamery.humlnet.cz/images/webcams/medvedin/640x480.jpg?", "spindlerove/", ".jpg") )
 
+    karkonosze = geographicRegion("Karkonosze","karkonosze/",kameryKarkonosze)
+    #--------------------------------------------------------------------------------
+
     # Pogoda jest traktowana jako osobna kraina geograficzna, gdzie pobieramy pogodę z różnych miejsc Kraju
     # a następnie łączymy w kolaz
+    #--------------------------------------------------------------------------------
     kameryPogoda = []
     kameryPogoda.append( webCamera("Meteogram Zakopane", "http://new.meteo.pl/um/metco/mgram_pict.php?ntype=0u&row=487&col=232&lang=pl", "pogoda-zakopane/", ".png") )
     kameryPogoda.append( webCamera("Meteogram Karpacz", "http://new.meteo.pl/um/metco/mgram_pict.php?ntype=0u&row=444&col=158&lang=pl", "pogoda-karpacz/", ".png" ) )
@@ -311,11 +321,8 @@ else:
     kameryPogoda.append( generatedPhoto("Szklarska poręba", "", "etykiety/", "_szklarska.jpg" ) )
     kameryPogoda.append( generatedPhoto("Stronie Śląskie", "", "etykiety/", "_stronieslaskie.jpg" ) )
     kameryPogoda.append( generatedPhoto("Duszniki Zdrój", "", "etykiety/", "_dusznikizdroj.jpg" ) )
-
-    # tworzymy krainy geograficzne
-    tatry 		= geographicRegion("Tatry","tatry/",kameryTatry,pomiaryTatry)
-    karkonosze 	        = geographicRegion("Karkonosze","karkonosze/",kameryKarkonosze)
-    pogoda		= geographicRegion("Pogoda Polska","pogoda/",kameryPogoda)
+    pogoda = geographicRegion("Pogoda Polska","pogoda/",kameryPogoda)
+    #--------------------------------------------------------------------------------
 
     # tworzymy swiat
     swiat = []

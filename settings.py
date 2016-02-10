@@ -307,6 +307,23 @@ else:
     karkonosze = geographicRegion("Karkonosze","karkonosze/",kameryKarkonosze)
     #--------------------------------------------------------------------------------
 
+    # Pieniny
+    #--------------------------------------------------------------------------------
+    #kamery
+    kameryPieniny = []
+    kameryPieniny.append( webCamera("Szczawnica", "http://www.kamery.szczawnica.pl/foto5000M.jpg", "szczawnica", ".jpg") )
+    kameryPieniny.append( webCamera("Szczawnica-Przystań", "http://www.kamery.szczawnica.pl/foto7000M.jpg", "szczawnica-przystan", ".jpg") )
+    kameryPieniny.append( webCamera("Szczawnica-PlacDietla", "http://www.kamery.szczawnica.pl/foto6000M.jpg", "szczawnica-PlacDietla", ".jpg") )
+    kameryPieniny.append( webCamera("Czorsztyn", "http://www.kamery.szczawnica.pl/foto8.jpg", "czorsztyn", ".jpg") )
+    kameryPieniny.append( webCamera("Szczawnica-Pieniny", "http://kamery.szczawnica.pl/foto4.jpg", "szczawnica-pieniny", ".jpg") )
+    kameryPieniny.append( webCamera("CervenyKlastor", "http://www.pieninyportal.com/images/stories/webcamera/pieninyportal-plte.jpg", "cerveny-klastor", ".jpg") )
+    kameryPieniny.append( webCamera("Niedzica-Zapora", "http://www.niedzica.pl/userfiles/kamery/niedzica8000M.jpg", "niedzica-zapora", ".jpg") )
+    kameryPieniny.append( webCamera("Jaworki1", "http://imageserver.webcamera.pl/miniaturki/arena_cam_8f2ac7.stream.jpg", "jaworki", ".jpg") )
+    #kameryPieniny.append( webCamera("", "", "", ".jpg") )
+
+    pieniny = geographicRegion("Pieniny","pieniny/",kameryPieniny)
+    #--------------------------------------------------------------------------------
+
     # Pogoda jest traktowana jako osobna kraina geograficzna, gdzie pobieramy pogodę z różnych miejsc Kraju
     # a następnie łączymy w kolaz
     #--------------------------------------------------------------------------------
@@ -328,5 +345,6 @@ else:
     swiat = []
     swiat.append(tatry)
     swiat.append(karkonosze)
+    swiat.append(pieniny)
     swiat.append(pogoda)
 

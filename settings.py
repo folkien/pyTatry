@@ -324,6 +324,16 @@ else:
     pieniny = geographicRegion("Pieniny","pieniny/",kameryPieniny)
     #--------------------------------------------------------------------------------
 
+    # Gory walbrzyskie
+    #--------------------------------------------------------------------------------
+    #kamery
+    kameryWalbrzyskie = []
+    kameryWalbrzyskie.append( webCamera("PTTK Orzeł", "http://www.przeleczsokola.pl/wp-content/uploads/2015/przeleczsokola.jpg", "pttk-orzel/", ".jpg") )
+    #kameryWalbrzyskie.append( webCamera("", "", "", ".jpg") )
+
+    walbrzyskie = geographicRegion("Walbrzyskie","GoryWalbrzyskie/",kameryWalbrzyskie)
+    #--------------------------------------------------------------------------------
+
     # Pogoda jest traktowana jako osobna kraina geograficzna, gdzie pobieramy pogodę z różnych miejsc Kraju
     # a następnie łączymy w kolaz
     #--------------------------------------------------------------------------------
@@ -346,5 +356,6 @@ else:
     swiat.append(tatry)
     swiat.append(karkonosze)
     swiat.append(pieniny)
+    swiat.append(walbrzyskie)
     swiat.append(pogoda)
 

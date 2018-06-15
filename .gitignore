@@ -1,5 +1,6 @@
 testArena
-data
+*.db
+*.jpg
 *.pyc
 *.jpg
 *.png

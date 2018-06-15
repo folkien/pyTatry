@@ -34,7 +34,11 @@ class webCamera:
 				self.pobrano = False
 
 		def fetchData(self):
-				response = urllib2.urlopen(self.link)
+				try:
+					response = urllib2.urlopen(self.link)
+				except urllib2.HTTPError as err:
+					print("Url error!")
+					return []
 				self.pobrano = True
 				return [ response.read() ]
 
@@ -70,8 +74,13 @@ class htmlMeasurments:
                 "Pobiera dokument o adresie wskazanym przez self.link z internetu."
 		def fetchData(self):
 				#odczytujemy stronę www i wyszukujemy pattern
-				response 			= urllib2.urlopen(self.link)
-				self.text			= response.read().replace("\n","")
+				try:
+					response 			= urllib2.urlopen(self.link)
+				except urllib2.HTTPError as err:
+					print("Url error!")
+					self.text = ""
+				else:
+					self.text			= response.read().replace("\n","")
                                 #Sprawdzamy kodowanie strony www
                                 result = re.search("charset=[a-zA-Z0-9\-]*",self.text) # pierwszy filtr
                                 if (result != None):
@@ -121,8 +130,13 @@ class searchedPhoto(webCamera):
 				listaObrazow = []
 
 				#odczytujemy stronę www z zagrożeniem lawinowym
-				response 			= urllib2.urlopen(self.link)
-				analizowanaTresc	= response.read()
+				try:
+					response = urllib2.urlopen(self.link)
+				except urllib2.HTTPError as err:
+					print("Url error!")
+					analizowanaTresc	= ""
+				else:
+					analizowanaTresc	= response.read()
 				element  			= re.search(self.wzorzec, analizowanaTresc)
 
 				#sciagamy obrazek zagrozenia ze strony TOPR'u
@@ -221,7 +235,7 @@ photosFolder = scriptFolder + "/data/photos/"
 actualDate      = functions.createFileName('')
 thisMoment      = unicode( str( datetime.datetime.now() )[:19]) # Zapamiętujemy czas połączenia, bez milisekund.
 allFileName     = photosFolder + "tatry/" + actualDate
-databaseFile 	= os.getenv("HOME") + "/python/pyTatry/data/database.db"
+databaseFile 	= os.path.dirname(os.path.abspath(__file__)) + "/data/database.db"
 
 if (DEBUG==1):
     testDocument = htmlMeasurments("http://www.test.tatrynet.pl/pogoda/weatherMiddleware_v1.0/xml/lokalizacje1.xml",
